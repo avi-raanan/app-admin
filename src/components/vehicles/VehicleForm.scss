@@ -1,0 +1,723 @@
+// נתיב: client/src/components/vehicles/VehicleForm.scss
+
+.vehicle-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+.vehicle-form-container {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  animation: formSlideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+.vehicle-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 95vh;
+}
+
+/* כותרת הטופס */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #ff7f50 0%, #ff6347 100%);
+  color: white;
+  flex-shrink: 0;
+
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+      color: #ffd700;
+    }
+  }
+
+  .btn-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* אינדיקטור שלבים */
+.form-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 25px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 15px;
+  flex-shrink: 0;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 12px;
+    min-width: 100px;
+
+    &:hover {
+      background: rgba(255, 127, 80, 0.05);
+    }
+
+    &.active {
+      .step-number {
+        background: linear-gradient(145deg, #ff7f50, #ff6347);
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 127, 80, 0.4);
+      }
+
+      .step-title {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+    }
+
+    &.current {
+      background: rgba(255, 127, 80, 0.1);
+      
+      .step-number {
+        animation: stepPulse 2s infinite;
+      }
+    }
+
+    .step-number {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      background: #e9ecef;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .step-title {
+      font-size: 0.8rem;
+      color: #6c757d;
+      text-align: center;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+/* תוכן הטופס - התיקון הראשי כאן */
+.form-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 25px;
+  min-height: 0; /* חשוב לגלילה */
+
+  /* סגנון סקרול בר מותאם אישית */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff7f50, #ff6347);
+    border-radius: 10px;
+
+    &:hover {
+      background: linear-gradient(45deg, #ff6347, #ff4500);
+    }
+  }
+
+  .form-step {
+    animation: stepFadeIn 0.4s ease-out;
+    padding-bottom: 20px; /* רווח תחתון חשוב */
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(45deg, #ff7f50, #ff6347);
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+
+      .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+
+        &.required::after {
+          content: '*';
+          color: #dc3545;
+          margin-right: 4px;
+        }
+
+        i {
+          color: #ff7f50;
+          font-size: 1rem;
+        }
+      }
+
+      .form-control,
+      .form-select {
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(248, 249, 250, 0.5);
+
+        &:focus {
+          border-color: #ff7f50;
+          box-shadow: 0 0 0 0.2rem rgba(255, 127, 80, 0.15);
+          background: white;
+        }
+
+        &.is-invalid {
+          border-color: #dc3545;
+          
+          &:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+          }
+        }
+      }
+
+      .invalid-feedback {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-top: 5px;
+      }
+
+      .input-group {
+        .input-group-text {
+          background: rgba(255, 127, 80, 0.1);
+          border: 2px solid rgba(0, 0, 0, 0.08);
+          border-radius: 0 10px 10px 0;
+          border-right: none;
+          color: #2c3e50;
+          font-weight: 600;
+        }
+
+        .form-control {
+          border-left: none;
+          border-radius: 10px 0 0 10px;
+        }
+      }
+
+      /* תיקון מיוחד לטקסט אזור */
+      textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+        max-height: 180px; /* מגביל גובה מקסימלי */
+      }
+    }
+  }
+}
+
+/* סקציית נהג */
+.driver-section {
+  margin: 25px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 127, 80, 0.05) 0%, rgba(248, 249, 250, 0.8) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 127, 80, 0.15);
+
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      color: #ff7f50;
+    }
+  }
+}
+
+/* סיכום הרכב */
+.vehicle-summary {
+  background: linear-gradient(135deg, rgba(255, 127, 80, 0.05) 0%, rgba(248, 249, 250, 0.8) 100%);
+  border: 1px solid rgba(255, 127, 80, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    i {
+      color: #ff7f50;
+    }
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+
+      .summary-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .summary-value {
+        font-size: 0.9rem;
+        color: #2c3e50;
+        font-weight: 700;
+        text-align: left;
+      }
+    }
+  }
+}
+
+/* כותרת תחתונה - מתוקנת */
+.form-footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  flex-shrink: 0; /* חשוב - מונע כיווץ */
+
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    .primary-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      border-radius: 10px;
+      font-weight: 600;
+      padding: 12px 24px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:disabled {
+        transform: none;
+        box-shadow: none;
+        opacity: 0.7;
+        cursor: not-allowed;
+
+        &:hover {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      &.btn-primary {
+        background: linear-gradient(145deg, #ff7f50, #ff6347);
+        border: none;
+        color: white;
+      }
+
+      &.btn-success {
+        background: linear-gradient(145deg, #28a745, #20c997);
+        border: none;
+        color: white;
+      }
+
+      &.btn-secondary {
+        background: linear-gradient(145deg, #6c757d, #495057);
+        border: none;
+        color: white;
+      }
+
+      &.btn-outline-secondary {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        background: transparent;
+
+        &:hover {
+          background: #6c757d;
+          color: white;
+        }
+      }
+
+      .spinner-border-sm {
+        width: 1rem;
+        height: 1rem;
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+/* אנימציות */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes stepPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 127, 80, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 127, 80, 0);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 992px) {
+  .vehicle-form-container {
+    max-width: 800px;
+  }
+
+  .form-steps {
+    gap: 12px;
+
+    .step {
+      min-width: 90px;
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+      }
+
+      .step-title {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .vehicle-form-overlay {
+    padding: 10px;
+  }
+
+  .vehicle-form-container {
+    max-height: 98vh;
+    border-radius: 16px;
+  }
+
+  .form-header {
+    padding: 15px 20px;
+
+    h2 {
+      font-size: 1.4rem;
+    }
+
+    .btn-close {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+  }
+
+  .form-steps {
+    padding: 15px 20px;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .step {
+      min-width: 75px;
+      padding: 8px;
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+
+      .step-title {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 20px;
+
+    .form-step {
+      h3 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+
+        .form-control,
+        .form-select {
+          padding: 10px 12px;
+          font-size: 0.9rem;
+        }
+
+        textarea.form-control {
+          min-height: 100px;
+          max-height: 140px;
+        }
+      }
+    }
+  }
+
+  .driver-section {
+    padding: 15px;
+    margin: 20px 0;
+
+    h4 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+  }
+
+  .vehicle-summary {
+    padding: 15px;
+    
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-footer {
+    padding: 15px 20px;
+
+    .navigation-buttons {
+      flex-direction: column;
+      gap: 10px;
+
+      .primary-buttons {
+        width: 100%;
+        justify-content: space-between;
+
+        .btn {
+          flex: 1;
+          padding: 10px 20px;
+          font-size: 0.9rem;
+        }
+      }
+
+      > .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .vehicle-form-overlay {
+    padding: 5px;
+  }
+
+  .vehicle-form-container {
+    border-radius: 12px;
+  }
+
+  .form-header {
+    padding: 12px 15px;
+    border-radius: 12px 12px 0 0;
+
+    h2 {
+      font-size: 1.2rem;
+      flex-direction: column;
+      gap: 4px;
+      text-align: center;
+    }
+  }
+
+  .form-steps {
+    padding: 12px 15px;
+    gap: 6px;
+
+    .step {
+      min-width: 65px;
+      padding: 6px;
+
+      .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+      }
+
+      .step-title {
+        font-size: 0.65rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 15px;
+
+    .form-step {
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+      }
+
+      .form-group {
+        .form-control,
+        .form-select {
+          padding: 9px 11px;
+          font-size: 0.85rem;
+        }
+
+        textarea.form-control {
+          min-height: 80px;
+          max-height: 120px;
+        }
+      }
+    }
+  }
+
+  .driver-section {
+    padding: 12px;
+    margin: 15px 0;
+  }
+
+  .vehicle-summary {
+    padding: 12px;
+  }
+
+  .form-footer {
+    padding: 12px 15px;
+
+    .navigation-buttons {
+      .primary-buttons {
+        flex-direction: column;
+        gap: 8px;
+
+        .btn {
+          padding: 10px 16px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}

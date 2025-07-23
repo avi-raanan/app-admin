@@ -1,0 +1,391 @@
+// נתיב: client/src/components/common/Sidebar/Sidebar.scss
+
+/* תפריט צד - סגנון מרכזי */
+.sidebar {
+  position: fixed;
+  height: 100vh;
+  width: 70px;
+  z-index: 1000;
+  right: 0;
+  top: 0;
+}
+
+.nav-sidebar {
+  min-height: 100vh;
+  width: 70px;
+  background: linear-gradient(145deg, #2b5876, #4e4376);
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+
+  // אפקט רקע מתחרך
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: backgroundShimmer 15s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes backgroundShimmer {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(20px, 20px); }
+}
+
+/* לוגו וסגנון האייקון */
+.logo-circle {
+  width: 45px;
+  height: 45px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  position: relative;
+  cursor: pointer;
+
+  i {
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover i {
+    transform: scale(1.1);
+  }
+
+  // אפקט טבעת מסתובבת
+  &::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: linear-gradient(45deg, #4cc9f0, #7209b7) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+/* פרטי תפריט */
+.menu-item {
+  height: 50px;
+  margin: 8px 5px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: calc(100% - 10px);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(45deg, #4cc9f0, #00d4ff);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 0 5px 5px 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(76, 201, 240, 0.2), transparent);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+
+    &::before {
+      transform: scaleY(1);
+    }
+
+    &::after {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &:active {
+    transform: translateX(-1px) scale(0.98);
+  }
+
+  // סטטוס פעיל
+  &.active {
+    background: rgba(76, 201, 240, 0.2);
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+
+    &::before {
+      transform: scaleY(1);
+    }
+
+    i {
+      color: #4cc9f0;
+      text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+    }
+  }
+
+  i {
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+
+  &:hover i {
+    color: #fff;
+    transform: translateY(-1px) scale(1.1);
+    text-shadow: 0 2px 10px rgba(76, 201, 240, 0.5);
+  }
+}
+
+/* כפתור התנתקות */
+.logout-btn {
+  &:hover {
+    background: rgba(220, 53, 69, 0.2);
+    
+    &::before {
+      background: linear-gradient(45deg, #dc3545, #ff1744);
+    }
+
+    i {
+      color: #dc3545;
+      text-shadow: 0 2px 10px rgba(220, 53, 69, 0.5);
+    }
+
+    .menu-tooltip {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+}
+
+/* טולטיפים */
+.menu-tooltip {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #2c3e50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  white-space: nowrap;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 1001;
+
+  // חץ קטן
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -5px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #2c3e50;
+  }
+}
+
+.menu-item:hover .menu-tooltip {
+  opacity: 1;
+  visibility: visible;
+  left: 85px;
+}
+
+/* תגית התראה */
+.notification-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: linear-gradient(45deg, #dc3545, #ff1744);
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  padding: 0 4px;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);
+  z-index: 3;
+
+  &.pulse {
+    animation: notificationPulse 2s infinite;
+  }
+}
+
+/* קו הפרדה */
+.menu-divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  margin: 15px auto;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+
+  &::before {
+    left: -8px;
+  }
+
+  &::after {
+    right: -8px;
+  }
+}
+
+/* אנימציות */
+.notification-badge.pulse {
+  animation: notificationPulse 2s infinite;
+}
+
+.pulse-animation {
+  animation: pulse-logo 3s infinite;
+}
+
+@keyframes notificationPulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+@keyframes pulse-logo {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,255,255,0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+  }
+}
+
+// רספונסיביות
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+
+  .nav-sidebar {
+    width: 60px;
+  }
+
+  .menu-item {
+    height: 45px;
+    margin: 6px 3px;
+    
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  .logo-circle {
+    width: 35px;
+    height: 35px;
+    
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .menu-tooltip {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    left: 65px;
+  }
+
+  .menu-item:hover .menu-tooltip {
+    left: 75px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 50px;
+  }
+
+  .nav-sidebar {
+    width: 50px;
+  }
+
+  .menu-item {
+    height: 40px;
+    margin: 4px 2px;
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+
+  .logo-circle {
+    width: 30px;
+    height: 30px;
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+}

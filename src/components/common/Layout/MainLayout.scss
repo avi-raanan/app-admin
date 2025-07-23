@@ -1,0 +1,95 @@
+// נתיב: client/src/components/common/Layout/MainLayout.scss
+
+.main-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 70px; // רוחב הסיידבר
+  height: 100vh;
+  overflow: hidden;
+}
+
+.content-area {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.content-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 25px;
+  
+  // עיצוב סרגל הגלילה
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #4cc9f0, #2b5876);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(45deg, #2b5876, #4e4376);
+    }
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(45deg, #1a4460, #3a3269);
+  }
+
+  // עבור Firefox
+  scrollbar-width: thin;
+  scrollbar-color: #4cc9f0 rgba(0, 0, 0, 0.05);
+}
+
+// רספונסיביות למובייל
+@media (max-width: 768px) {
+  .main-content {
+    margin-right: 60px; // רוחב סיידבר קטן יותר במובייל
+  }
+
+  .content-wrapper {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .main-content {
+    margin-right: 50px; // רוחב סיידבר עוד יותר קטן
+  }
+
+  .content-wrapper {
+    padding: 10px;
+  }
+}
+
+// אנימציות כניסה לתוכן
+.content-wrapper > * {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

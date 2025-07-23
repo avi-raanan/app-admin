@@ -1,0 +1,613 @@
+// נתיב: client/src/components/vehicles/VehicleCard.scss
+
+.vehicle-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4cc9f0, #2b5876, #4e4376);
+    transition: height 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+
+    &::before {
+      height: 6px;
+    }
+  }
+
+  // סטטוס רכב
+  &.active {
+    border-left: 4px solid #28a745;
+  }
+
+  &.maintenance {
+    border-left: 4px solid #ffc107;
+  }
+
+  &.available {
+    border-left: 4px solid #17a2b8;
+  }
+}
+
+/* כותרת הכרטיס */
+.vehicle-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 20px 0;
+
+  .vehicle-status {
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+
+      &.status-success {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        border: 1px solid rgba(40, 167, 69, 0.2);
+      }
+
+      &.status-warning {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+        border: 1px solid rgba(255, 193, 7, 0.2);
+      }
+
+      &.status-info {
+        background: rgba(23, 162, 184, 0.1);
+        color: #17a2b8;
+        border: 1px solid rgba(23, 162, 184, 0.2);
+      }
+
+      i {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .vehicle-actions {
+    display: flex;
+    gap: 8px;
+
+    .btn {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: all 0.2s ease;
+      border-width: 2px;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+/* גוף הכרטיס */
+.vehicle-card-body {
+  padding: 20px;
+
+  .vehicle-main-info {
+    margin-bottom: 20px;
+
+    .vehicle-license {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.2;
+
+      i {
+        color: #4cc9f0;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+    }
+
+    .vehicle-model,
+    .vehicle-color {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      color: #6c757d;
+
+      i {
+        color: #4cc9f0;
+        font-size: 0.9rem;
+        width: 16px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .vehicle-details {
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      font-size: 0.9rem;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .detail-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #6c757d;
+        font-weight: 500;
+        flex: 1;
+
+        i {
+          color: #4cc9f0;
+          font-size: 0.85rem;
+          width: 16px;
+        }
+      }
+
+      .detail-value {
+        color: #2c3e50;
+        font-weight: 600;
+        text-align: right;
+        flex: 1;
+      }
+    }
+  }
+
+  .expiry-warnings {
+    margin-top: 15px;
+
+    .expiry-warning {
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      i {
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      &.warning {
+        background: rgba(255, 193, 7, 0.1);
+        color: #856404;
+        border: 1px solid rgba(255, 193, 7, 0.3);
+
+        i {
+          color: #ffc107;
+        }
+      }
+
+      &.danger {
+        background: rgba(220, 53, 69, 0.1);
+        color: #721c24;
+        border: 1px solid rgba(220, 53, 69, 0.3);
+
+        i {
+          color: #dc3545;
+        }
+      }
+    }
+  }
+
+  .vehicle-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+    .details-toggle {
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 8px;
+      padding: 6px 12px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+
+      i {
+        font-size: 0.8rem;
+        transition: transform 0.2s ease;
+      }
+    }
+
+    .maintenance-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #6c757d;
+      font-size: 0.85rem;
+
+      i {
+        color: #4cc9f0;
+      }
+    }
+  }
+}
+
+/* פרטים מורחבים */
+.vehicle-expanded-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(76, 201, 240, 0.1);
+  animation: expandVehicleDetails 0.3s ease-out;
+
+  .details-section {
+    margin-bottom: 25px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(76, 201, 240, 0.2);
+
+      i {
+        color: #4cc9f0;
+        font-size: 0.9rem;
+      }
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+
+      @media (min-width: 576px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .detail-item {
+        background: rgba(248, 249, 250, 0.8);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+
+        .label {
+          display: block;
+          font-size: 0.8rem;
+          color: #6c757d;
+          font-weight: 500;
+          margin-bottom: 4px;
+        }
+
+        .value {
+          font-size: 0.9rem;
+          color: #2c3e50;
+          font-weight: 600;
+          word-break: break-word;
+        }
+      }
+    }
+
+    .maintenance-list {
+      .maintenance-item {
+        background: rgba(248, 249, 250, 0.8);
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 10px;
+
+        .maintenance-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+
+          .maintenance-type {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c3e50;
+          }
+
+          .maintenance-date {
+            font-size: 0.8rem;
+            color: #6c757d;
+          }
+        }
+
+        .maintenance-description {
+          font-size: 0.85rem;
+          color: #495057;
+          margin-bottom: 8px;
+          line-height: 1.4;
+        }
+
+        .maintenance-cost {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #28a745;
+          text-align: left;
+        }
+      }
+
+      .maintenance-more {
+        text-align: center;
+        padding: 10px;
+        color: #6c757d;
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+    }
+
+    .notes-text {
+      background: rgba(248, 249, 250, 0.8);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      color: #495057;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+  }
+}
+
+/* אנימציות */
+@keyframes expandVehicleDetails {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 768px) {
+  .vehicle-card {
+    margin-bottom: 20px;
+
+    .vehicle-card-header {
+      padding: 15px 15px 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+
+      .vehicle-actions {
+        align-self: flex-end;
+      }
+    }
+
+    .vehicle-card-body {
+      padding: 15px;
+
+      .vehicle-main-info {
+        .vehicle-license {
+          font-size: 1.3rem;
+        }
+      }
+
+      .vehicle-details {
+        .detail-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+          padding: 8px 0;
+
+          .detail-value {
+            text-align: left;
+          }
+        }
+      }
+
+      .vehicle-footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+
+    .vehicle-expanded-details {
+      .details-section {
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .vehicle-card {
+    border-radius: 12px;
+
+    .vehicle-card-header {
+      padding: 12px 12px 0;
+    }
+
+    .vehicle-card-body {
+      padding: 12px;
+
+      .vehicle-main-info {
+        margin-bottom: 15px;
+
+        .vehicle-license {
+          font-size: 1.2rem;
+          margin-bottom: 10px;
+        }
+
+        .vehicle-model,
+        .vehicle-color {
+          font-size: 0.9rem;
+          margin-bottom: 6px;
+        }
+      }
+
+      .vehicle-details {
+        .detail-row {
+          padding: 6px 0;
+          font-size: 0.85rem;
+        }
+      }
+
+      .expiry-warnings {
+        margin-top: 12px;
+
+        .expiry-warning {
+          margin-bottom: 6px;
+          padding: 6px 10px;
+          font-size: 0.75rem;
+        }
+      }
+
+      .vehicle-footer {
+        margin-top: 15px;
+        padding-top: 12px;
+
+        .details-toggle {
+          font-size: 0.8rem;
+          padding: 5px 10px;
+        }
+
+        .maintenance-count {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .vehicle-expanded-details {
+      margin-top: 15px;
+      padding-top: 15px;
+
+      .details-section {
+        margin-bottom: 20px;
+
+        h5 {
+          font-size: 0.95rem;
+          margin-bottom: 12px;
+        }
+
+        .detail-grid {
+          .detail-item {
+            padding: 10px;
+
+            .label {
+              font-size: 0.75rem;
+            }
+
+            .value {
+              font-size: 0.85rem;
+            }
+          }
+        }
+
+        .maintenance-list {
+          .maintenance-item {
+            padding: 12px;
+
+            .maintenance-header {
+              .maintenance-type {
+                font-size: 0.85rem;
+              }
+
+              .maintenance-date {
+                font-size: 0.75rem;
+              }
+            }
+
+            .maintenance-description {
+              font-size: 0.8rem;
+            }
+
+            .maintenance-cost {
+              font-size: 0.85rem;
+            }
+          }
+        }
+
+        .notes-text {
+          padding: 12px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+
+/* מצב הדפסה */
+@media print {
+  .vehicle-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #dee2e6;
+
+    .vehicle-card-header {
+      .vehicle-actions {
+        display: none;
+      }
+    }
+
+    .vehicle-card-body {
+      .vehicle-footer {
+        .details-toggle {
+          display: none;
+        }
+      }
+    }
+  }
+}

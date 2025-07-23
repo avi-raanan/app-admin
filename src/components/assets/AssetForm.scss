@@ -1,0 +1,744 @@
+// נתיב: client/src/components/assets/AssetForm.scss
+
+.asset-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlayFadeIn 0.3s ease-out;
+}
+
+.asset-form-container {
+  background: white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+  animation: formSlideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+.asset-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+}
+
+/* כותרת הטופס */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    i {
+      color: #ffd700;
+      margin-left: 10px;
+    }
+  }
+
+  .btn-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+  }
+}
+
+/* אינדיקטור שלבים */
+.form-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 30px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 20px;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 12px;
+    border-radius: 16px;
+    min-width: 120px;
+
+    &:hover {
+      background: rgba(102, 126, 234, 0.05);
+    }
+
+    &.active {
+      .step-number {
+        background: linear-gradient(145deg, #667eea, #764ba2);
+        color: white;
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .step-title {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+    }
+
+    &.current {
+      background: rgba(102, 126, 234, 0.1);
+      
+      .step-number {
+        animation: stepPulse 2s infinite;
+      }
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e9ecef;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      color: #6c757d;
+      text-align: center;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+/* תוכן הטופס */
+.form-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 10px;
+  }
+
+  .form-step {
+    animation: stepFadeIn 0.4s ease-out;
+
+    h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+
+      .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+
+        &.required::after {
+          content: '*';
+          color: #dc3545;
+          margin-right: 4px;
+        }
+
+        i {
+          color: #667eea;
+          font-size: 1rem;
+        }
+      }
+
+      .form-control,
+      .form-select {
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(248, 249, 250, 0.6);
+
+        &:focus {
+          border-color: #667eea;
+          box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+          background: white;
+        }
+
+        &.is-invalid {
+          border-color: #dc3545;
+          
+          &:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+          }
+        }
+      }
+
+      .invalid-feedback {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-top: 6px;
+      }
+
+      .input-group {
+        .input-group-text {
+          background: rgba(102, 126, 234, 0.1);
+          border: 2px solid rgba(0, 0, 0, 0.08);
+          border-radius: 0 12px 12px 0;
+          border-right: none;
+          color: #2c3e50;
+          font-weight: 600;
+        }
+
+        .form-control {
+          border-left: none;
+          border-radius: 12px 0 0 12px;
+        }
+      }
+    }
+  }
+}
+
+/* סקציות מיוחדות */
+.utilities-section {
+  margin: 35px 0;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(248, 249, 250, 0.8) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+      color: #667eea;
+    }
+  }
+
+  .utility-group {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    h5 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      i {
+        color: #667eea;
+      }
+    }
+  }
+}
+
+/* סיכום נכס */
+.asset-summary {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(248, 249, 250, 0.8) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 16px;
+  padding: 25px;
+  margin-top: 30px;
+
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    i {
+      color: #667eea;
+    }
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 18px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+
+      .summary-label {
+        font-size: 0.95rem;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .summary-value {
+        font-size: 0.95rem;
+        color: #2c3e50;
+        font-weight: 700;
+        text-align: left;
+      }
+    }
+  }
+}
+
+/* פאנל מידע חוזה */
+.lease-info-panel {
+  margin: 25px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(248, 249, 250, 0.8) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(40, 167, 69, 0.2);
+
+  h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      color: #28a745;
+    }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid rgba(40, 167, 69, 0.1);
+
+      .info-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .info-value {
+        font-size: 0.9rem;
+        color: #28a745;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+/* כותרת תחתונה */
+.form-footer {
+  padding: 25px 30px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+
+  .navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    .primary-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 14px 28px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      &:active {
+        transform: translateY(-1px);
+      }
+
+      &:disabled {
+        transform: none;
+        box-shadow: none;
+        opacity: 0.7;
+        cursor: not-allowed;
+
+        &:hover {
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      &.btn-primary {
+        background: linear-gradient(145deg, #667eea, #764ba2);
+        border: none;
+      }
+
+      &.btn-success {
+        background: linear-gradient(145deg, #28a745, #20c997);
+        border: none;
+      }
+
+      &.btn-secondary {
+        background: linear-gradient(145deg, #6c757d, #495057);
+        border: none;
+      }
+
+      .spinner-border-sm {
+        width: 1.1rem;
+        height: 1.1rem;
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+/* אנימציות */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes stepPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(102, 126, 234, 0);
+  }
+}
+
+/* רספונסיביות */
+@media (max-width: 992px) {
+  .asset-form-container {
+    max-width: 800px;
+  }
+
+  .form-steps {
+    gap: 15px;
+
+    .step {
+      min-width: 100px;
+
+      .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+      }
+
+      .step-title {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .asset-form-overlay {
+    padding: 10px;
+  }
+
+  .asset-form-container {
+    max-height: 95vh;
+    border-radius: 16px;
+  }
+
+  .form-header {
+    padding: 20px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .btn-close {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+  }
+
+  .form-steps {
+    padding: 20px;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    .step {
+      min-width: 80px;
+      padding: 10px;
+
+      .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+      }
+
+      .step-title {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 20px;
+
+    .form-step {
+      h3 {
+        font-size: 1.4rem;
+        margin-bottom: 25px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+
+        .form-control,
+        .form-select {
+          padding: 12px 14px;
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+
+  .utilities-section {
+    padding: 20px;
+    margin: 30px 0;
+
+    h4 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    .utility-group {
+      padding: 15px;
+    }
+  }
+
+  .form-footer {
+    padding: 20px;
+
+    .navigation-buttons {
+      flex-direction: column;
+      gap: 12px;
+
+      .primary-buttons {
+        width: 100%;
+        justify-content: space-between;
+
+        .btn {
+          flex: 1;
+          padding: 12px 24px;
+          font-size: 0.95rem;
+        }
+      }
+
+      > .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .asset-form-overlay {
+    padding: 5px;
+  }
+
+  .asset-form-container {
+    max-height: 98vh;
+    border-radius: 12px;
+  }
+
+  .form-header {
+    padding: 15px;
+
+    h2 {
+      font-size: 1.3rem;
+      flex-direction: column;
+      gap: 5px;
+      text-align: center;
+    }
+  }
+
+  .form-steps {
+    padding: 15px;
+    gap: 8px;
+
+    .step {
+      min-width: 70px;
+      padding: 8px;
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+      }
+
+      .step-title {
+        font-size: 0.7rem;
+        line-height: 1.2;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 15px;
+
+    .form-step {
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .utilities-section {
+    padding: 15px;
+    margin: 25px 0;
+  }
+
+  .asset-summary {
+    padding: 15px;
+    
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-footer {
+    padding: 15px;
+
+    .navigation-buttons {
+      .primary-buttons {
+        flex-direction: column;
+        gap: 10px;
+
+        .btn {
+          padding: 12px 20px;
+        }
+      }
+    }
+  }
+}
